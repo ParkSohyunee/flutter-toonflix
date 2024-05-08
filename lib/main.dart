@@ -12,49 +12,43 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  int _counter = 0;
-  List<int> numbers = [];
-
-  void onClicked() {
-    // 데이터를 변경하고 UI에 반영하려면 setState - flutter에게 build 메소드를 다시 실행
-    // flutter에서 상태(state)는 많이 사용하지 않음 (참고)
-    setState(() {
-      _counter++;
-      numbers.add(numbers.length);
-    });
-
-    // 아래 처럼 작성할 수도 있음, 하지만 setState안에 작성하는 것이 일반적 (참고)
-    // numbers.add(numbers.length);
-    // setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: const Color(0xFFF4EDDB),
+      theme: ThemeData(
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(color: Colors.red),
+        ),
+      ),
+      home: const Scaffold(
+        backgroundColor: Color(0xFFF4EDDB),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'click count',
-                style: TextStyle(fontSize: 30),
-              ),
-              for (var n in numbers) Text('$n'),
-              Text(
-                '$_counter',
-                style: const TextStyle(fontSize: 30),
-              ),
-              IconButton(
-                onPressed: onClicked,
-                icon: const Icon(Icons.add_box_rounded),
-                iconSize: 40,
-              )
+              MyLargeTitle(),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+// _AppState 위젯에서 분리
+// stateless 위젯에서 theme의 값에 접근 - context
+class MyLargeTitle extends StatelessWidget {
+  const MyLargeTitle({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // context에는 위젯 트리 정보가 담겨있음 - 부모 요소에 접근
+    return Text(
+      'My Large Title',
+      style: TextStyle(
+          fontSize: 30, color: Theme.of(context).textTheme.titleLarge?.color),
     );
   }
 }
