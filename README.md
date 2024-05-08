@@ -1,7 +1,9 @@
 <div>
   <h1>Flutter project</h1> 
-  <p>Dart, Flutter 공부하면서 간단한 웹툰 앱 만들기 challenge</p>
+  <h3>Dart, Flutter 공부하면서 간단한 웹툰 앱 만들기 challenge</h3>
 </div>
+
+<br/>
 
 <!-- Study -->
 
@@ -16,6 +18,7 @@
   - flutter doctor를 이용한 세팅
   - VSCode 디버깅 활용(Widget Inspector, Code Actions)
 - 재사용 가능한 위젯 만들기
+- Stateless Widget, Stateful widget - Widget Lifecycle
 
 <br/>
 
@@ -24,8 +27,15 @@
 ### :dart: Features
 
 - [x] UI 구현해보기
-<div align='center'> 
-    <img  width="230" alt="screenshot" src="https://github.com/ParkSohyunee/freeboard/assets/124856726/e7735824-d0f3-4ab6-a496-d18d948c7281">
+<div> 
+    <img  width="250" alt="screenshot" src="https://github.com/ParkSohyunee/freeboard/assets/124856726/e7735824-d0f3-4ab6-a496-d18d948c7281">
+</div>
+
+<br/>
+
+- [x] Pomodoro App
+<div> 
+    <img  width="250" alt="screenshot" src="https://github.com/ParkSohyunee/flutter-toonflix/assets/124856726/71f91824-7ee4-4d47-92d6-510656d8ed3a">
 </div>
 
 <br/>
@@ -33,6 +43,6 @@
 ### :fire: To do
 
 - [x] Stateless Widgets (UI Challenge)
-- [ ] Stateful Widgets
-- [ ] Pomodoro App
+- [x] Stateful Widgets
+- [x] Pomodoro App
 - [ ] Webtoon App
