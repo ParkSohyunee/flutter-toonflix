@@ -5,11 +5,10 @@ import 'package:flutter_toonflix/services/api_service.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  Future<List<WebtoonModel>> webtoons = ApiService.getTodayToons();
+  final Future<List<WebtoonModel>> webtoons = ApiService.getTodayToons();
 
   @override
   Widget build(BuildContext context) {
-    print(webtoons);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -25,12 +24,66 @@ class HomeScreen extends StatelessWidget {
       body: FutureBuilder(
         future: webtoons,
         builder: (context, snapshot) {
-          print(context);
           if (snapshot.hasData) {
-            return const Text('data');
+            return Column(
+              children: [
+                const SizedBox(
+                  height: 50,
+                ),
+                Expanded(child: makeList(snapshot))
+              ],
+            );
           }
-          return const Text('loading');
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         },
+      ),
+    );
+  }
+
+  ListView makeList(AsyncSnapshot<List<WebtoonModel>> snapshot) {
+    return ListView.separated(
+      // 사용자 눈에 보이는 item만 builder - 스크롤 시, 더 불러옴
+      scrollDirection: Axis.horizontal,
+      itemCount: snapshot.data!.length,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      // 0부터 itemCount까지 index에 해당하는 아이템을 만듬
+      itemBuilder: (context, index) {
+        // print(index);
+        var webtoon = snapshot.data![index];
+        return Column(
+          children: [
+            Container(
+              width: 230,
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 15,
+                        offset: const Offset(8, 8),
+                        color: Colors.black.withOpacity(0.5)),
+                  ]),
+              child: Image.network(
+                webtoon.thumb,
+                headers: const {
+                  'Referer': 'https://comic.naver.com',
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              webtoon.title,
+              style: const TextStyle(fontSize: 22),
+            )
+          ],
+        );
+      },
+      separatorBuilder: (context, index) => const SizedBox(
+        width: 40,
       ),
     );
   }
