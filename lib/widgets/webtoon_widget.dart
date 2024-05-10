@@ -23,22 +23,26 @@ class Webtoon extends StatelessWidget {
       },
       child: Column(
         children: [
-          Container(
-            width: 230,
-            clipBehavior: Clip.hardEdge,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(
-                      blurRadius: 15,
-                      offset: const Offset(8, 8),
-                      color: Colors.black.withOpacity(0.5)),
-                ]),
-            child: Image.network(
-              thumb,
-              headers: const {
-                'Referer': 'https://comic.naver.com',
-              },
+          // 두 화면 사이에 애니메이션을 주는 위젯 (tag로 연결)
+          Hero(
+            tag: id,
+            child: Container(
+              width: 230,
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 15,
+                        offset: const Offset(8, 8),
+                        color: Colors.black.withOpacity(0.5)),
+                  ]),
+              child: Image.network(
+                thumb,
+                headers: const {
+                  'Referer': 'https://comic.naver.com',
+                },
+              ),
             ),
           ),
           const SizedBox(
