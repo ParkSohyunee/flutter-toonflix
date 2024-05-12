@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_toonflix/model/webtoon_model.dart';
+import 'package:flutter_toonflix/model/webtoon_detail_model.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -26,6 +27,19 @@ class ApiService {
         webtoonInstances.add(WebtoonModel.fromJson(webtoon));
       }
       return webtoonInstances;
+    }
+    throw Error();
+  }
+
+  static Future<WebtoonDetailModel> getToonById(String id) async {
+    final url = Uri.parse('$baseUrl/$id'); // url을 만들고,
+    final response = await http.get(url); // url로 request 요청을 보내고,
+
+    // 요청이 성공하면,
+    if (response.statusCode == 200) {
+      final webtoon = jsonDecode(response.body); // String을 json으로 변환해서,
+      // WebtoonDetailModel 인스턴스로 초기화
+      return WebtoonDetailModel.fromJson(webtoon);
     }
     throw Error();
   }
