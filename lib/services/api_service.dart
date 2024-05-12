@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_toonflix/model/webtoon_episode_model.dart';
 import 'package:flutter_toonflix/model/webtoon_model.dart';
 import 'package:flutter_toonflix/model/webtoon_detail_model.dart';
 import 'package:http/http.dart' as http;
@@ -40,6 +41,22 @@ class ApiService {
       final webtoon = jsonDecode(response.body); // String을 json으로 변환해서,
       // WebtoonDetailModel 인스턴스로 초기화
       return WebtoonDetailModel.fromJson(webtoon);
+    }
+    throw Error();
+  }
+
+  static Future<List<WebtoonEpisodeModel>> getLatestEpisodesById(
+      String id) async {
+    List<WebtoonEpisodeModel> webtoonEpisodesInstance = [];
+    final url = Uri.parse('$baseUrl/$id/episodes');
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final episodes = jsonDecode(response.body);
+      for (var episode in episodes) {
+        webtoonEpisodesInstance.add(WebtoonEpisodeModel.fromJson(episode));
+      }
+      return webtoonEpisodesInstance;
     }
     throw Error();
   }
