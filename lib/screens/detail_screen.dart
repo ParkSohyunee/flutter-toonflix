@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_toonflix/model/webtoon_detail_model.dart';
 import 'package:flutter_toonflix/model/webtoon_episode_model.dart';
 import 'package:flutter_toonflix/services/api_service.dart';
@@ -131,17 +132,19 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ]),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 30),
+                                  vertical: 10, horizontal: 25),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    episode.title,
-                                    style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
+                                  Expanded(
+                                    child: Text(
+                                      episode.title,
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    ),
                                   ),
                                   const Icon(
                                     Icons.chevron_right_rounded,
