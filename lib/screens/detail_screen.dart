@@ -3,6 +3,7 @@ import 'package:flutter_toonflix/model/webtoon_detail_model.dart';
 import 'package:flutter_toonflix/model/webtoon_episode_model.dart';
 import 'package:flutter_toonflix/services/api_service.dart';
 import 'package:flutter_toonflix/widgets/episode_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailScreen extends StatefulWidget {
   final String title, thumb, id;
@@ -20,12 +21,50 @@ class _DetailScreenState extends State<DetailScreen> {
 
   late Future<WebtoonDetailModel> webtoon;
   late Future<List<WebtoonEpisodeModel>> episodes;
+  late SharedPreferences prefs;
+  bool isLiked = false;
+
+  Future initPrefs() async {
+    // 사용자의 저장소에 connection을 만들어 줌
+    prefs = await SharedPreferences.getInstance();
+    // likedToons 이름의 String List가 있는지 확인
+    final likedToons = prefs.getStringList('likedToons');
+
+    // 있다면, 웹툰의 ID를 갖고 있는지 확인
+    if (likedToons != null) {
+      if (likedToons.contains(widget.id)) {
+        setState(() {
+          isLiked = true;
+        });
+      }
+    } else {
+      // 핸드폰 저장소에 데이터 저장
+      await prefs.setStringList('likedToons', []);
+    }
+  }
+
+  onHeartTap() async {
+    final likedToons = prefs.getStringList('likedToons');
+    if (likedToons != null) {
+      if (isLiked) {
+        likedToons.remove(widget.id);
+      } else {
+        likedToons.add(widget.id);
+      }
+      // 핸드폰 저장소에 데이터 저장
+      await prefs.setStringList('likedToons', likedToons);
+      setState(() {
+        isLiked = !isLiked;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     webtoon = ApiService.getToonById(widget.id);
     episodes = ApiService.getLatestEpisodesById(widget.id);
+    initPrefs();
   }
 
   @override
@@ -37,6 +76,14 @@ class _DetailScreenState extends State<DetailScreen> {
         shadowColor: Colors.black,
         backgroundColor: Colors.white,
         foregroundColor: Colors.green,
+        actions: [
+          IconButton(
+            onPressed: onHeartTap,
+            icon: Icon(
+              isLiked ? Icons.favorite : Icons.favorite_border_outlined,
+            ),
+          )
+        ],
         title: Text(
           widget.title,
           style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w500),
